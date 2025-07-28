@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.codev.backend.dto.UserDTO;
 import com.codev.backend.dto.UserLoginDTO;
@@ -14,6 +15,7 @@ import com.codev.backend.mapper.UserMapper;
 import com.codev.backend.repository.UserRepository;
 import com.codev.backend.service.UserService;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
