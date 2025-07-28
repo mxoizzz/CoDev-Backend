@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.codev.backend.dto.UserDTO;
 import com.codev.backend.dto.UserRegisterDTO;
+import com.codev.backend.dto.UserUpdateDTO;
 import com.codev.backend.entity.User;
 
 public class UserMapper {
@@ -38,14 +39,14 @@ public class UserMapper {
         return user;
     }
 
-    public static void updateUserFromDto(User user, UserDTO userDTO) {
-        if (user == null || userDTO == null) {
+    public static void updateUserFromDto(User user, UserUpdateDTO userUpdateDTO) {
+        if (user == null || userUpdateDTO == null) {
             return;
         }
-        user.setName(userDTO.getName());
-        user.setBio(userDTO.getBio());
-        user.setProfilePicture(userDTO.getProfilePicture());
-        user.setSkills(userDTO.getSkills());
+        user.setName(userUpdateDTO.getName());
+        user.setBio(userUpdateDTO.getBio());
+        user.setProfilePicture(userUpdateDTO.getProfilePicture());
+        user.setSkills(userUpdateDTO.getSkills());
         user.setUpdatedAt(LocalDateTime.now());
     }
 }
