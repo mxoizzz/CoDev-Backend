@@ -1,4 +1,4 @@
-package com.codev.backend.service.serviceImpl;
+package com.codev.backend.service;
 
 import java.util.List;
 
