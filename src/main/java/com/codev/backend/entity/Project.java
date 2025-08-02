@@ -3,9 +3,14 @@ package com.codev.backend.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.codev.backend.enums.ProjectStatus;
+import com.codev.backend.enums.ProjectVisibility;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,9 +46,13 @@ public class Project {
 
     private LocalDateTime createdAt;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProjectStatus status;
 
-    private String visibility;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProjectVisibility visibility;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")

@@ -18,7 +18,7 @@ public class ProjectMapper {
         project.setDescription(createProjectDTO.getDescription());
         project.setDomain(createProjectDTO.getDomain());
         project.setTechStack(createProjectDTO.getTechStack());
-        project.setStatus("Active");
+        project.setStatus(com.codev.backend.enums.ProjectStatus.Active); 
         project.setVisibility(createProjectDTO.getVisibility());
         project.setCreatedAt(LocalDateTime.now());
         project.setOwner(user);

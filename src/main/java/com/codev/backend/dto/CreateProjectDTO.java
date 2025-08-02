@@ -2,6 +2,9 @@ package com.codev.backend.dto;
 
 import java.util.List;
 
+import com.codev.backend.enums.ProjectStatus;
+import com.codev.backend.enums.ProjectVisibility;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +19,6 @@ public class CreateProjectDTO {
     private String description;
     private String domain;
     private List<String> techStack;
-    // private String status;
-    private String visibility;
+    private ProjectStatus status;
+    private ProjectVisibility visibility;
 }
