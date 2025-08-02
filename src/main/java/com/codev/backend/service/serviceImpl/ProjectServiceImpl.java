@@ -23,31 +23,29 @@ public class ProjectServiceImpl implements ProjectService{
     private ProjectRepository projectRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ProjectMapper projectMapper;
 
     @Override
     public ProjectDTO createProject(CreateProjectDTO createProjectDTO, Long ownerId) {
         User user = userRepository.findById(ownerId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + ownerId));
         
-        Project project = projectMapper.toProject(createProjectDTO, user);
+        Project project = ProjectMapper.toProject(createProjectDTO, user);
         Project savedProject = projectRepository.save(project);
-        return projectMapper.projectDTO(savedProject);
+        return ProjectMapper.projectDTO(savedProject);
     }
 
     @Override
     public ProjectDTO getProjectById(Long projectId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found with id: " + projectId));
-        return projectMapper.projectDTO(project);
+        return ProjectMapper.projectDTO(project);
     }
 
     @Override
     public List<ProjectDTO> getAllProjects() {
         List<Project> projects = projectRepository.findAll();
         return projects.stream()
-                .map(projectMapper::projectDTO)
+                .map(ProjectMapper::projectDTO)
                 .collect(Collectors.toList());
     }
 
@@ -60,9 +58,9 @@ public class ProjectServiceImpl implements ProjectService{
             throw new RuntimeException("User is not the owner of the project");
         }
 
-        projectMapper.updateProjectFromDTO(project, updateProjectDTO);
+        ProjectMapper.updateProjectFromDTO(project, updateProjectDTO);
         Project updatedProject = projectRepository.save(project);
-        return projectMapper.projectDTO(updatedProject);
+        return ProjectMapper.projectDTO(updatedProject);
     }
 
     @Override

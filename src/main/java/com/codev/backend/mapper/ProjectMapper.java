@@ -9,7 +9,7 @@ import com.codev.backend.entity.Project;
 import com.codev.backend.entity.User;
 
 public class ProjectMapper {
-    public Project toProject(CreateProjectDTO createProjectDTO,User user) {
+    public static Project toProject(CreateProjectDTO createProjectDTO,User user) {
         if (createProjectDTO == null) {
             return null;
         }
@@ -25,7 +25,7 @@ public class ProjectMapper {
         return project;
     }
 
-    public ProjectDTO projectDTO(Project project) {
+    public static ProjectDTO projectDTO(Project project) {
         if (project == null) {
             return null;
         }
@@ -45,7 +45,7 @@ public class ProjectMapper {
         return projectDTO;
     }
 
-    public void updateProjectFromDTO(Project project, UpdateProjectDTO updateProjectDTO)
+    public static void updateProjectFromDTO(Project project, UpdateProjectDTO updateProjectDTO)
     {
         if (updateProjectDTO.getTitle() != null) project.setTitle(updateProjectDTO.getTitle());
         if (updateProjectDTO.getDescription() != null) project.setDescription(updateProjectDTO.getDescription());
