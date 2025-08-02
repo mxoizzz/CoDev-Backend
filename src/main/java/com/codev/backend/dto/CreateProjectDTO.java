@@ -16,6 +16,6 @@ public class CreateProjectDTO {
     private String description;
     private String domain;
     private List<String> techStack;
-    private String status;
+    // private String status;
     private String visibility;
 }

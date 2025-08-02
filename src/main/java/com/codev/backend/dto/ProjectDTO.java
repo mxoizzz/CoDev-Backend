@@ -1,5 +1,6 @@
 package com.codev.backend.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ public class ProjectDTO {
     private String description;
     private String domain;
     private List<String> techStack;
-    private String createdAt;
+    private LocalDateTime createdAt;
     private String status;
     private String visibility;
     private UserDTO owner;
