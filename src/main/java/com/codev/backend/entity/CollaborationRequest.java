@@ -39,6 +39,8 @@ public class CollaborationRequest {
     @JoinColumn(name = "sender_id")
     private User sender;
 
+    private String message;
+
     @Enumerated(EnumType.STRING)
     private CollaborationStatus status;
 

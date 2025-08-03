@@ -13,4 +13,5 @@ import lombok.Setter;
 public class CreateCollaborationRequestDTO {
     private Long projectId;
     private Long receiverId;
+    private String message; 
 }
