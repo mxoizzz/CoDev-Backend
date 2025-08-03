@@ -35,6 +35,7 @@ public class User {
 
     private String password;
 
+    @Column(length = 200)
     private String bio;
 
     private String profilePicture;

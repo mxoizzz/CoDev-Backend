@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.codev.backend.enums.CollaborationStatus;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -39,6 +40,11 @@ public class CollaborationRequest {
     @JoinColumn(name = "sender_id")
     private User sender;
 
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
+
+    @Column(length = 200, nullable = true)
     private String message;
 
     @Enumerated(EnumType.STRING)
