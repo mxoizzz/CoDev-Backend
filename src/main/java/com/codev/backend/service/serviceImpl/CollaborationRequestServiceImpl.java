@@ -69,7 +69,7 @@ public class CollaborationRequestServiceImpl implements CollaborationRequestServ
 
     @Override
     public void updateRequestStatus(Long requestId, CollaborationStatus status, Long receiverId) {
-        CollaborationRequest request = collaborationRequestRepository.findById(receiverId)
+        CollaborationRequest request = collaborationRequestRepository.findById(requestId)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
         if (!request.getReceiver().getId().equals(receiverId)) {
             throw new IllegalStateException("Only the receiver can update the request status");
