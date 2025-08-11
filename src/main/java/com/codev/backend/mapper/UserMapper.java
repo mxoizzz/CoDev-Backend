@@ -39,6 +39,21 @@ public class UserMapper {
         return user;
     }
 
+    public static User toEntity(UserDTO userDTO) {
+        if (userDTO == null) {
+            return null;
+        }
+        User user = new User();
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setBio(userDTO.getBio());
+        user.setProfilePicture(userDTO.getProfilePicture());
+        user.setSkills(userDTO.getSkills());
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+        return user;
+    }
+
     public static void updateUserFromDto(User user, UserUpdateDTO userUpdateDTO) {
         if (user == null || userUpdateDTO == null) {
             return;

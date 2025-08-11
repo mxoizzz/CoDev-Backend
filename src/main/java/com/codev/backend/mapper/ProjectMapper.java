@@ -54,4 +54,19 @@ public class ProjectMapper {
         if (updateProjectDTO.getVisibility() != null) project.setVisibility(updateProjectDTO.getVisibility());
         if (updateProjectDTO.getStatus() != null) project.setStatus(updateProjectDTO.getStatus());
     }
+
+    public static Project toProject(ProjectDTO projectDTO) {
+        if (projectDTO == null) {
+            return null;
+        }
+        Project project = new Project();
+        project.setTitle(projectDTO.getTitle());
+        project.setDescription(projectDTO.getDescription());
+        project.setDomain(projectDTO.getDomain());
+        project.setTechStack(projectDTO.getTechStack());
+        project.setStatus(com.codev.backend.enums.ProjectStatus.Active); 
+        project.setVisibility(projectDTO.getVisibility());
+        project.setCreatedAt(LocalDateTime.now());
+        return project;
+    }
 }
