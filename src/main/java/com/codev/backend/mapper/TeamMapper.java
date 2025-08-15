@@ -26,7 +26,13 @@ public class TeamMapper {
 
         Team team = new Team();
         team.setId(teamDTO.getId());
-        team.setName(teamDTO.getName());
+        if (teamDTO.getName() == null || teamDTO.getName().isBlank()) {
+            if (teamDTO.getProject() != null && teamDTO.getProject().getTitle() != null) {
+                team.setName(teamDTO.getProject().getTitle() + "'s Team");
+            }
+        } else {
+            team.setName(teamDTO.getName());
+        }
         team.setProject(ProjectMapper.toProject(teamDTO.getProject()));
         team.setMembers(teamDTO.getMembers().stream()
             .map(UserMapper::toEntity)
