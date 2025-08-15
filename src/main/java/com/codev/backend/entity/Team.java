@@ -44,5 +44,9 @@ public class Team {
     )
     private Set<User> members = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "leader_id", nullable = false)
+    private User leader;
+
     private LocalDateTime createdAt;
 }

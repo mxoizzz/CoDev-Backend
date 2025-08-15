@@ -16,6 +16,7 @@ public class TeamMapper {
         dto.setMembers(team.getMembers().stream()
             .map(UserMapper::toDTO)
             .collect(Collectors.toSet()));
+        dto.setLeader(UserMapper.toDTO(team.getLeader()));
         dto.setCreatedAt(team.getCreatedAt());
         return dto;
     }  
@@ -26,10 +27,11 @@ public class TeamMapper {
         Team team = new Team();
         team.setId(teamDTO.getId());
         team.setName(teamDTO.getName());
-        team.setProject(ProjectMapper.toProject(ProjectMapper.projectDTO(team.getProject())));
+        team.setProject(ProjectMapper.toProject(teamDTO.getProject()));
         team.setMembers(teamDTO.getMembers().stream()
             .map(UserMapper::toEntity)
             .collect(Collectors.toSet()));
+        team.setLeader(UserMapper.toEntity(teamDTO.getLeader()));
         team.setCreatedAt(teamDTO.getCreatedAt());
         return team;
     }

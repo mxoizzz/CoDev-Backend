@@ -18,5 +18,6 @@ public class TeamDTO {
     private String name;
     private ProjectDTO project;
     private Set<UserDTO> members;
+    private UserDTO leader;
     private LocalDateTime createdAt;
 }
