@@ -53,7 +53,10 @@ public class TeamServiceImpl implements TeamService {
         team.setProject(project);
         team.setLeader(leader);
         team.setMembers(new HashSet<>()); 
-        team.getMembers().add(leader);   
+        team.getMembers().add(leader); 
+        User newMember = userRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        team.getMembers().add(newMember);  
         team.setCreatedAt(LocalDateTime.now());
 
         if (createTeamDTO.getName() == null || createTeamDTO.getName().trim().isEmpty()) {
