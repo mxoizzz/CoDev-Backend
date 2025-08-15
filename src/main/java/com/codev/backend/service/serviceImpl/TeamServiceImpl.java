@@ -33,60 +33,74 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public TeamDTO createTeam(CreateTeamDTO createTeamDTO, Long memberId) {
-    // Fetch project
-    Project project = projectRepository.findById(createTeamDTO.getProjectId())
-            .orElseThrow(() -> new RuntimeException("Project not found"));
+        Project project = projectRepository.findById(createTeamDTO.getProjectId())
+                .orElseThrow(() -> new RuntimeException("Project not found"));
 
-    // Fetch leader
-    User leader = userRepository.findById(createTeamDTO.getLeaderId())
-            .orElseThrow(() -> new RuntimeException("Leader not found"));
+        User leader = userRepository.findById(createTeamDTO.getLeaderId())
+                .orElseThrow(() -> new RuntimeException("Leader not found"));
 
-    // Check if a team already exists for this project
-    Optional<Team> existingTeam = teamRepository.findByProjectId(project.getId());
-    if (existingTeam.isPresent()) {
-        Team team = existingTeam.get();
-        User newMember = userRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        team.getMembers().add(newMember);
-        team = teamRepository.save(team);
-        return TeamMapper.toDto(team);
+        Optional<Team> existingTeam = teamRepository.findByProjectId(project.getId());
+        if (existingTeam.isPresent()) {
+            Team team = existingTeam.get();
+            User newMember = userRepository.findById(memberId)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            team.getMembers().add(newMember);
+            team = teamRepository.save(team);
+            return TeamMapper.toDto(team);
+        }
+
+        Team team = new Team();
+        team.setProject(project);
+        team.setLeader(leader);
+        team.setMembers(new HashSet<>()); 
+        team.getMembers().add(leader);   
+        team.setCreatedAt(LocalDateTime.now());
+
+        if (createTeamDTO.getName() == null || createTeamDTO.getName().trim().isEmpty()) {
+            team.setName(project.getTitle() + "'s Team");
+        } else {
+            team.setName(createTeamDTO.getName());
+        }
+
+        Team savedTeam = teamRepository.save(team);
+        return TeamMapper.toDto(savedTeam);
     }
-
-    // Create new team
-    Team team = new Team();
-    team.setProject(project);
-    team.setLeader(leader);
-    team.setMembers(new HashSet<>()); // Initialize members set
-    team.getMembers().add(leader);   // Leader is automatically a member
-    team.setCreatedAt(LocalDateTime.now());
-
-    // Set default name if not provided
-    if (createTeamDTO.getName() == null || createTeamDTO.getName().trim().isEmpty()) {
-        team.setName(project.getTitle() + "'s Team");
-    } else {
-        team.setName(createTeamDTO.getName());
-    }
-
-    // Save and return
-    Team savedTeam = teamRepository.save(team);
-    return TeamMapper.toDto(savedTeam);
-}
 
     @Override
     public TeamDTO getTeamById(Long teamId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTeamById'");
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
+        return TeamMapper.toDto(team);
     }
 
     @Override
     public TeamDTO updateTeam(Long teamId, UpdateTeamDTO updateTeamDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateTeam'");
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
+
+        if (updateTeamDTO.getName() != null && !updateTeamDTO.getName().trim().isEmpty()) {
+            team.setName(updateTeamDTO.getName());
+        }
+        Team updatedTeam = teamRepository.save(team);
+        return TeamMapper.toDto(updatedTeam);
     }
 
     @Override
     public void removeMember(Long teamId, Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeMember'");
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
+
+        User member = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (team.getLeader().getId().equals(userId)) {
+            throw new IllegalStateException("Cannot remove the team leader");
+        }
+
+        if (!team.getMembers().remove(member)) {
+            throw new IllegalStateException("User is not a member of the team");
+        }
+
+        teamRepository.save(team);
     }
 }
