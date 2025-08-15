@@ -46,12 +46,13 @@ public class CollaborationRequestController {
         return ResponseEntity.ok(collaborationRequestService.getSentRequests(userId));
     }
 
-    @PutMapping("/{requestId}/status")
+    @PutMapping("/{requestId}/{senderId}/{receiverId}/status")
     public ResponseEntity<Void> updateStatus(
             @PathVariable Long requestId,
-            @RequestParam CollaborationStatus status,
-            @RequestParam Long receiverId) {
-        collaborationRequestService.updateRequestStatus(requestId, status, receiverId);
+            @PathVariable Long senderId,
+            @PathVariable Long receiverId,
+            @RequestParam CollaborationStatus status){
+        collaborationRequestService.updateRequestStatus(requestId,senderId, status, receiverId);
         return ResponseEntity.ok().build();
     }
 

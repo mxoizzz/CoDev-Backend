@@ -13,7 +13,7 @@ public interface CollaborationRequestService {
 
     List<CollaborationRequestDTO> getSentRequests(Long userId);
 
-    void updateRequestStatus(Long requestId, CollaborationStatus status, Long receiverId);
+    void updateRequestStatus(Long requestId,Long senderId, CollaborationStatus status, Long receiverId);
 
     void deleteRequest(Long requestId, Long userId);    
 }

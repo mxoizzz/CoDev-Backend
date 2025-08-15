@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.codev.backend.dto.CollaborationRequestDTO;
 import com.codev.backend.dto.CreateCollaborationRequestDTO;
+import com.codev.backend.dto.CreateTeamDTO;
 import com.codev.backend.entity.CollaborationRequest;
 import com.codev.backend.entity.Project;
 import com.codev.backend.entity.User;
@@ -18,6 +19,7 @@ import com.codev.backend.repository.CollaborationRequestRepository;
 import com.codev.backend.repository.ProjectRepository;
 import com.codev.backend.repository.UserRepository;
 import com.codev.backend.service.CollaborationRequestService;
+import com.codev.backend.service.TeamService;
 
 @Service
 public class CollaborationRequestServiceImpl implements CollaborationRequestService{
@@ -30,6 +32,9 @@ public class CollaborationRequestServiceImpl implements CollaborationRequestServ
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private TeamService teamService;
 
     @Override
     public CollaborationRequestDTO createRequest(CreateCollaborationRequestDTO requestDTO, Long senderId) {
@@ -68,14 +73,22 @@ public class CollaborationRequestServiceImpl implements CollaborationRequestServ
     }
 
     @Override
-    public void updateRequestStatus(Long requestId, CollaborationStatus status, Long receiverId) {
+    public void updateRequestStatus(Long requestId, Long senderId, CollaborationStatus status, Long receiverId) {
         CollaborationRequest request = collaborationRequestRepository.findById(requestId)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
         if (!request.getReceiver().getId().equals(receiverId)) {
             throw new IllegalStateException("Only the receiver can update the request status");
         }
-
-        request.setStatus(status);
+        if(status == CollaborationStatus.Accepted) {
+            request.setStatus(status);
+            CreateTeamDTO createTeamDTO = new CreateTeamDTO();
+            createTeamDTO.setProjectId(request.getProject().getId());
+            createTeamDTO.setLeaderId(request.getReceiver().getId());
+            createTeamDTO.setName(null); 
+            teamService.createTeam(createTeamDTO, senderId);
+        } else if (status == CollaborationStatus.Rejected) {
+            request.setStatus(status);
+        }
         collaborationRequestRepository.save(request);
     }
 
