@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.codev.backend.dto.ProjectDTO;
+import com.codev.backend.enums.ProjectStatus;
 import com.codev.backend.mapper.ProjectMapper;
 import com.codev.backend.repository.ProjectRepository;
 import com.codev.backend.service.FeedService;
@@ -51,10 +52,11 @@ public class FeedServiceImpl implements FeedService{
     }
 
     @Override
-    public List<ProjectDTO> filterAndSearch(String domain, String tech, String keyword) {
-        return projectRepository.filterAndSearch(domain, tech, keyword).stream()
-                .map(ProjectMapper::projectDTO)
-                .collect(Collectors.toList());
+    public List<ProjectDTO> filterAndSearch(String domain, String tech, ProjectStatus status, String keyword) {
+        return projectRepository.filterAndSearch(domain, tech, status, keyword).stream()
+            .map(ProjectMapper::projectDTO)
+            .collect(Collectors.toList());
     }
+
 
 }
