@@ -38,7 +38,7 @@ public class PortfolioServiceImpl implements PortfolioService{
     public PortfolioDTO getPortfolioByUserId(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        List<Project> projects = projectRepository.findAllByOwnerId(userId);
+        List<Project> projects = projectRepository.findByOwnerId(userId);
 
         UserDTO userDTO = UserMapper.toDTO(user);
             
