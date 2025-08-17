@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.codev.backend.dto.PortfolioDTO;
 import com.codev.backend.dto.ProjectDTO;
@@ -20,6 +21,7 @@ import com.codev.backend.repository.TeamRepository;
 import com.codev.backend.repository.UserRepository;
 import com.codev.backend.service.PortfolioService;
 
+@Service
 public class PortfolioServiceImpl implements PortfolioService{
 
     @Autowired
