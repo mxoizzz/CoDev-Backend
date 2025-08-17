@@ -37,7 +37,7 @@ public class FeedServiceImpl implements FeedService {
 
     @Override
     public List<ProjectDTO> filterByDomain(String domain) {
-        return projectRepository.findByVisibilityAndDomainIgnoreCase(ProjectVisibility.Public, domain).stream()
+        return projectRepository.filterByDomainKeyword(ProjectVisibility.Public, domain).stream()
                 .map(ProjectMapper::projectDTO)
                 .collect(Collectors.toList());
     }

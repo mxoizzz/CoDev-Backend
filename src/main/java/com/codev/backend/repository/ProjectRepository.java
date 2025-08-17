@@ -19,22 +19,30 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     List<Project> findByVisibility(ProjectVisibility visibility);
 
-    List<Project> findByVisibilityAndDomainIgnoreCase(ProjectVisibility visibility, String domain);
+    // Updated: domain keyword search
+    @Query("SELECT p FROM Project p WHERE p.visibility = :visibility " +
+           "AND LOWER(p.domain) LIKE LOWER(CONCAT('%', :domainKeyword, '%'))")
+    List<Project> filterByDomainKeyword(@Param("visibility") ProjectVisibility visibility,
+                                        @Param("domainKeyword") String domainKeyword);
 
     @Query("SELECT p FROM Project p WHERE p.visibility = :visibility AND " +
            "(LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+           "LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%')))") 
     List<Project> searchPublicProjects(@Param("visibility") ProjectVisibility visibility,
                                        @Param("keyword") String keyword);
 
-    @Query("SELECT p FROM Project p WHERE p.visibility = :visibility AND " +
-           "LOWER(:tech) IS NULL OR LOWER(p.techStack) LIKE LOWER(CONCAT('%', :tech, '%'))")
+    // Corrected filter by tech stack
+    @Query("SELECT DISTINCT p FROM Project p JOIN p.techStack t " +
+           "WHERE p.visibility = :visibility " +
+           "AND (:tech IS NULL OR LOWER(t) LIKE LOWER(CONCAT('%', :tech, '%')))") 
     List<Project> filterByTechStack(@Param("visibility") ProjectVisibility visibility,
                                     @Param("tech") String tech);
 
-    @Query("SELECT p FROM Project p WHERE p.visibility = :visibility " +
-           "AND (:domain IS NULL OR LOWER(p.domain) = LOWER(:domain)) " +
-           "AND (:tech IS NULL OR LOWER(p.techStack) LIKE LOWER(CONCAT('%', :tech, '%'))) " +
+    // Corrected combined filter + search
+    @Query("SELECT DISTINCT p FROM Project p LEFT JOIN p.techStack t " +
+           "WHERE p.visibility = :visibility " +
+           "AND (:domain IS NULL OR LOWER(p.domain) LIKE LOWER(CONCAT('%', :domain, '%'))) " +
+           "AND (:tech IS NULL OR LOWER(t) LIKE LOWER(CONCAT('%', :tech, '%'))) " +
            "AND (:status IS NULL OR p.status = :status) " +
            "AND (:keyword IS NULL OR (LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
            "                          OR LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))))")
