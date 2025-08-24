@@ -1,5 +1,8 @@
 package com.codev.backend.controller;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,5 +39,11 @@ public class TeamController {
     public void removeMember(@PathVariable Long teamId,
                              @PathVariable Long userId) {
         teamService.removeMember(teamId, userId);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<TeamDTO>> getTeamsByUserId(@PathVariable Long userId) {
+        List<TeamDTO> teams = teamService.getTeamsByUserId(userId);
+        return ResponseEntity.ok(teams);
     }
 }

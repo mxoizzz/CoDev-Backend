@@ -35,12 +35,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String loginUser(UserLoginDTO userLoginDTO) {
+    public Long loginUser(UserLoginDTO userLoginDTO) {
         Optional<User> userOptional = userRepository.findByEmail(userLoginDTO.getEmail());
         if (userOptional.isEmpty() || !userOptional.get().getPassword().equals(userLoginDTO.getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
-        return "Login successful for user: " + userOptional.get().getName();
+
+        User user = userOptional.get();
+        Long id = user.getId();
+        return id;
     }
 
     @Override

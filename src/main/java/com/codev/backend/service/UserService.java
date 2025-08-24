@@ -7,7 +7,7 @@ import com.codev.backend.dto.UserUpdateDTO;
 
 public interface UserService {
     UserDTO registerUser(UserRegisterDTO userRegisterDTO);
-    String loginUser(UserLoginDTO userLoginDTO);
+    Long loginUser(UserLoginDTO userLoginDTO);
     UserDTO getUserById(Long id);
     UserDTO updateUser(Long id, UserUpdateDTO userUpdateDTO);
 }

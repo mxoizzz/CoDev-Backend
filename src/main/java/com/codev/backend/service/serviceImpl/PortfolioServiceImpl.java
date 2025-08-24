@@ -42,7 +42,7 @@ public class PortfolioServiceImpl implements PortfolioService{
 
         UserDTO userDTO = UserMapper.toDTO(user);
             
-        List<Team> teams = teamRepository.findByMemberId(userId);
+        List<Team> teams = teamRepository.findByUserId(userId);
         List<Project> memberProjects = teams.stream()
             .map(Team::getProject)
             .collect(Collectors.toList());

@@ -11,6 +11,6 @@ import com.codev.backend.entity.Team;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
     Optional<Team> findByProjectId(Long projectId);
-    @Query("SELECT t FROM Team t JOIN t.members m WHERE m.id = :userId")
-    List<Team> findByMemberId(@Param("userId") Long userId);
+    @Query("SELECT t FROM Team t WHERE t.leader.id = :userId OR EXISTS (SELECT 1 FROM t.members m WHERE m.id = :userId)")
+    List<Team> findByUserId(@Param("userId") Long userId);
 }

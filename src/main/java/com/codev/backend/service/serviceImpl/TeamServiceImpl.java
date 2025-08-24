@@ -2,7 +2,9 @@ package com.codev.backend.service.serviceImpl;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -106,4 +108,14 @@ public class TeamServiceImpl implements TeamService {
 
         teamRepository.save(team);
     }
+
+    @Override
+    public List<TeamDTO> getTeamsByUserId(Long userId) {
+        List<Team> teams = teamRepository.findByUserId(userId); // use your repo method
+        return teams.stream()
+                .map(TeamMapper::toDto)   // use your custom mapper
+                .collect(Collectors.toList());
+}
+
+
 }
