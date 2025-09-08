@@ -18,10 +18,11 @@ public class ProjectMapper {
         project.setDescription(createProjectDTO.getDescription());
         project.setDomain(createProjectDTO.getDomain());
         project.setTechStack(createProjectDTO.getTechStack());
-        project.setStatus(com.codev.backend.enums.ProjectStatus.Active); 
+        project.setStatus(createProjectDTO.getStatus());
         project.setVisibility(createProjectDTO.getVisibility());
         project.setCreatedAt(LocalDateTime.now());
         project.setOwner(user);
+        project.setGitRepoLink(createProjectDTO.getGitRepoLink());
         return project;
     }
 
@@ -41,7 +42,7 @@ public class ProjectMapper {
         if (project.getOwner() != null) {
             projectDTO.setOwner(UserMapper.toDTO(project.getOwner()));
         }
-
+        projectDTO.setGitRepoLink(project.getGitRepoLink());
         return projectDTO;
     }
 
@@ -53,6 +54,7 @@ public class ProjectMapper {
         if (updateProjectDTO.getTechStack() != null) project.setTechStack(updateProjectDTO.getTechStack());
         if (updateProjectDTO.getVisibility() != null) project.setVisibility(updateProjectDTO.getVisibility());
         if (updateProjectDTO.getStatus() != null) project.setStatus(updateProjectDTO.getStatus());
+        if (updateProjectDTO.getGitRepoLink() != null) project.setGitRepoLink(updateProjectDTO.getGitRepoLink());
     }
 
     public static Project toProject(ProjectDTO projectDTO) {
@@ -64,9 +66,10 @@ public class ProjectMapper {
         project.setDescription(projectDTO.getDescription());
         project.setDomain(projectDTO.getDomain());
         project.setTechStack(projectDTO.getTechStack());
-        project.setStatus(com.codev.backend.enums.ProjectStatus.Active); 
+        project.setStatus(projectDTO.getStatus()); 
         project.setVisibility(projectDTO.getVisibility());
         project.setCreatedAt(LocalDateTime.now());
+        project.setGitRepoLink(projectDTO.getGitRepoLink());
         return project;
     }
 }

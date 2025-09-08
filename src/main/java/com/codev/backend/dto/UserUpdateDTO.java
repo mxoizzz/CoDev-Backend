@@ -11,4 +11,8 @@ public class UserUpdateDTO {
     private String bio;
     private String profilePicture;
     private List<String> skills;
+    private String linkedin;
+    private String github;
+    private String instagram;
+    private String website;
 }

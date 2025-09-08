@@ -18,6 +18,7 @@ public class TeamMapper {
             .collect(Collectors.toSet()));
         dto.setLeader(UserMapper.toDTO(team.getLeader()));
         dto.setCreatedAt(team.getCreatedAt());
+        dto.setDescription(team.getDescription());
         return dto;
     }  
 

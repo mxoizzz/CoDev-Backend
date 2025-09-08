@@ -32,6 +32,8 @@ public class Team {
 
     private String name;
 
+    private String description;
+    
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;

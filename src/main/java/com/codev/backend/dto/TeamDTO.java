@@ -20,4 +20,5 @@ public class TeamDTO {
     private Set<UserDTO> members;
     private UserDTO leader;
     private LocalDateTime createdAt;
+    private String description;
 }

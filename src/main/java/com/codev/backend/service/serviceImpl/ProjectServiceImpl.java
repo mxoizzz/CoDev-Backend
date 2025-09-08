@@ -12,18 +12,23 @@ import com.codev.backend.dto.UpdateProjectDTO;
 import com.codev.backend.entity.Project;
 import com.codev.backend.entity.User;
 import com.codev.backend.mapper.ProjectMapper;
+import com.codev.backend.repository.CollaborationRequestRepository;
 import com.codev.backend.repository.ProjectRepository;
+import com.codev.backend.repository.TeamRepository;
 import com.codev.backend.repository.UserRepository;
 import com.codev.backend.service.ProjectService;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
-
+    
     @Autowired
     private ProjectRepository projectRepository;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private TeamRepository teamRepository;
+    @Autowired
+    private CollaborationRequestRepository collabRequestRepository;
     @Override
     public ProjectDTO createProject(CreateProjectDTO createProjectDTO, Long ownerId) {
         User user = userRepository.findById(ownerId)
@@ -70,6 +75,15 @@ public class ProjectServiceImpl implements ProjectService{
         if(!project.getOwner().getId().equals(userId)) {
             throw new RuntimeException("User is not the owner of the project");
         }
+        
+        
+        // Delete related team members
+        teamRepository.deleteAllByProject(project);
+
+        // Delete related collaboration requests
+        collabRequestRepository.deleteAllByProject(project);
+
+        // Finally delete the project
         projectRepository.delete(project);
     }
 

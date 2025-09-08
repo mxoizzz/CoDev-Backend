@@ -20,6 +20,10 @@ public class UserMapper {
         userDTO.setProfilePicture(user.getProfilePicture());
         userDTO.setSkills(user.getSkills());
         userDTO.setCreatedAt(user.getCreatedAt());
+        userDTO.setLinkedin(user.getLinkedin());
+        userDTO.setGithub(user.getGithub());
+        userDTO.setInstagram(user.getInstagram());
+        userDTO.setWebsite(user.getWebsite());
         return userDTO;
     }
 
@@ -51,6 +55,10 @@ public class UserMapper {
         user.setSkills(userDTO.getSkills());
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
+        user.setLinkedin(userDTO.getLinkedin());
+        user.setGithub(userDTO.getGithub());
+        user.setInstagram(userDTO.getInstagram());
+        user.setWebsite(userDTO.getWebsite());
         return user;
     }
 
@@ -63,5 +71,9 @@ public class UserMapper {
         user.setProfilePicture(userUpdateDTO.getProfilePicture());
         user.setSkills(userUpdateDTO.getSkills());
         user.setUpdatedAt(LocalDateTime.now());
+        user.setLinkedin(userUpdateDTO.getLinkedin());
+        user.setGithub(userUpdateDTO.getGithub());
+        user.setInstagram(userUpdateDTO.getInstagram());
+        user.setWebsite(userUpdateDTO.getWebsite());
     }
 }

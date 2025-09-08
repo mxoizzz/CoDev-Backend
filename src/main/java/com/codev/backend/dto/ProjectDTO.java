@@ -25,4 +25,5 @@ public class ProjectDTO {
     private ProjectStatus status;
     private ProjectVisibility visibility;
     private UserDTO owner;
+    private String gitRepoLink;
 }

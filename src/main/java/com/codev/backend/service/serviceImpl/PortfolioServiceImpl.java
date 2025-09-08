@@ -14,7 +14,6 @@ import com.codev.backend.dto.UserDTO;
 import com.codev.backend.entity.Project;
 import com.codev.backend.entity.Team;
 import com.codev.backend.entity.User;
-import com.codev.backend.enums.ProjectVisibility;
 import com.codev.backend.mapper.ProjectMapper;
 import com.codev.backend.mapper.UserMapper;
 import com.codev.backend.repository.ProjectRepository;
@@ -47,15 +46,14 @@ public class PortfolioServiceImpl implements PortfolioService{
             .map(Team::getProject)
             .collect(Collectors.toList());
 
-        // Merge owned and member projects
         Set<Project> allProjects = new HashSet<>();
-        allProjects.addAll(projects); // owned projects
-        allProjects.addAll(memberProjects); // member projects
+        allProjects.addAll(projects); 
+        allProjects.addAll(memberProjects); 
 
         List<ProjectDTO> projectDTOs = allProjects.stream()
-            .filter(project -> project.getVisibility() == ProjectVisibility.Public)
             .map(ProjectMapper::projectDTO)
             .collect(Collectors.toList());
+
 
 
         PortfolioDTO portfolioDTO = new PortfolioDTO();

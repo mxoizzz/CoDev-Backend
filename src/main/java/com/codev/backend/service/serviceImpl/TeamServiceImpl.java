@@ -86,6 +86,13 @@ public class TeamServiceImpl implements TeamService {
         if (updateTeamDTO.getName() != null && !updateTeamDTO.getName().trim().isEmpty()) {
             team.setName(updateTeamDTO.getName());
         }
+        if (updateTeamDTO.getDescription() != null) {
+            team.setDescription(updateTeamDTO.getDescription());
+        }
+        if (updateTeamDTO.getStatus() != null) {
+            team.getProject().setStatus(updateTeamDTO.getStatus());
+            projectRepository.save(team.getProject());
+        }
         Team updatedTeam = teamRepository.save(team);
         return TeamMapper.toDto(updatedTeam);
     }
@@ -111,9 +118,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<TeamDTO> getTeamsByUserId(Long userId) {
-        List<Team> teams = teamRepository.findByUserId(userId); // use your repo method
+        List<Team> teams = teamRepository.findByUserId(userId);
         return teams.stream()
-                .map(TeamMapper::toDto)   // use your custom mapper
+                .map(TeamMapper::toDto)   
                 .collect(Collectors.toList());
 }
 

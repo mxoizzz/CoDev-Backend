@@ -46,4 +46,9 @@ public class User {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    private String linkedin;
+    private String github;
+    private String instagram;
+    private String website;
 }

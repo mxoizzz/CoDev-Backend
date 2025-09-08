@@ -21,4 +21,5 @@ public class UpdateProjectDTO {
     private List<String> techStack;
     private ProjectStatus status;
     private ProjectVisibility visibility;
+    private String gitRepoLink;
 }

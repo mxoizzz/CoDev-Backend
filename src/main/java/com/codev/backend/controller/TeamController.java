@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codev.backend.dto.TeamDTO;
 import com.codev.backend.dto.UpdateTeamDTO;
+import com.codev.backend.mapper.TeamMapper;
+import com.codev.backend.repository.TeamRepository;
 import com.codev.backend.service.TeamService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class TeamController {
 
     private final TeamService teamService;
+    private final TeamRepository teamRepository;
 
     @GetMapping("/{teamId}")
     public TeamDTO getTeam(@PathVariable Long teamId) {
@@ -46,4 +49,13 @@ public class TeamController {
         List<TeamDTO> teams = teamService.getTeamsByUserId(userId);
         return ResponseEntity.ok(teams);
     }
+
+    @GetMapping("/projects/{projectId}")
+    public ResponseEntity<TeamDTO> getTeamByProject(@PathVariable Long projectId) {
+        return teamRepository.findByProjectId(projectId)
+                .map(team -> ResponseEntity.ok(TeamMapper.toDto(team)))
+                .orElseGet(() -> ResponseEntity.noContent().build()); // <-- no team, safe
+}
+
+
 }

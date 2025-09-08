@@ -21,7 +21,6 @@ public class FeedController {
         this.feedService = feedService;
     }
 
-    // ✅ Single endpoint for feed with filters + search
     @GetMapping
     public List<ProjectDTO> getProjects(
             @RequestParam(required = false) String domain,
